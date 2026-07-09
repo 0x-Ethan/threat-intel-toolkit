@@ -1,0 +1,55 @@
+[package]
+name = "threat-intel-toolkit"
+version = "0.1.0"
+edition = "2021"
+authors = ["[NAME] <[EMAIL]>"]
+description = "Threat Intelligence & OSINT research toolkit — passive DNS, certificate transparency, MITRE ATT&CK mapping. Built in Rust."
+license = "MIT"
+repository = "https://github.com/[USERNAME]/threat-intel-toolkit"
+homepage = "https://[DOMAIN]"
+documentation = "https://github.com/[USERNAME]/threat-intel-toolkit#readme"
+readme = "README.md"
+keywords = ["threat-intelligence", "osint", "security", "dfir", "mitre-attack"]
+categories = ["command-line-utilities", "network-programming"]
+rust-version = "1.78"
+
+[[bin]]
+name = "tit"
+path = "src/main.rs"
+
+[dependencies]
+# CLI
+clap = { version = "4.5", features = ["derive"] }
+
+# Async runtime
+tokio = { version = "1.38", features = ["full"] }
+
+# HTTP client
+reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
+
+# JSON serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# DNS resolution
+trust-dns-resolver = "0.23"
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Date/time
+chrono = { version = "0.4", features = ["serde"] }
+
+[dev-dependencies]
+tokio-test = "0.4"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true

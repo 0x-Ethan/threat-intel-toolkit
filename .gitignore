@@ -1,0 +1,27 @@
+# Rust build artifacts
+/target/
+Cargo.lock
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Secrets — never commit these
+.env
+*.key
+*.pem
+*.p12
+secrets/
+
+# Local research data — never commit actual target data
+research-notes/data/
+research-notes/raw/
+*.jsonl
+*.pcap
+*.pcapng

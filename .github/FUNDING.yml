@@ -1,0 +1,17 @@
+# GitHub Sponsors / Buy Me a Coffee integration
+# This file enables the "Sponsor" button on your repository
+# Place this file at: .github/FUNDING.yml
+
+# Buy Me a Coffee — replace [BUYMEACOFFEE_USERNAME] with your handle
+buy_me_a_coffee: [BUYMEACOFFEE_USERNAME]
+
+# GitHub Sponsors (enable at github.com/sponsors once eligible)
+# github: [USERNAME]
+
+# Ko-fi (alternative to Buy Me a Coffee — same concept)
+# ko_fi: [KOFI_USERNAME]
+
+# Supported options (uncomment whichever you set up):
+# patreon: [PATREON_USERNAME]
+# open_collective: [COLLECTIVE_NAME]
+# custom: https://[DOMAIN]/support
