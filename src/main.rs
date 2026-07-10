@@ -70,9 +70,7 @@ async fn main() -> Result<()> {
         "threat_intel_toolkit=info"
     };
 
-    tracing_subscriber::fmt()
-        .with_env_filter(filter)
-        .init();
+    tracing_subscriber::fmt().with_env_filter(filter).init();
 
     match cli.command {
         Commands::Dns { target, limit } => {

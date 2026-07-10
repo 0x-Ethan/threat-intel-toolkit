@@ -35,10 +35,7 @@ pub async fn run(target: &str, include_expired: bool, output_format: &str) -> Re
         module: "ct".to_string(),
         total_found: entries.len(),
         entries,
-        mitre_techniques: vec![
-            "T1590.001".to_string(),
-            "T1596.003".to_string(),
-        ],
+        mitre_techniques: vec!["T1590.001".to_string(), "T1596.003".to_string()],
     };
 
     match output_format {
