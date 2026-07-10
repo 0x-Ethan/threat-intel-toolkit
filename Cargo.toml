@@ -24,19 +24,19 @@ clap = { version = "4.5", features = ["derive"] }
 # Async runtime
 tokio = { version = "1.38", features = ["full"] }
 
-# HTTP client
+# HTTP client — reqwest 0.12 (stable, rustls for memory-safe TLS)
 reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
+
+# URL encoding
+urlencoding = "2.1"
 
 # JSON serialization
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 
-# DNS resolution
-trust-dns-resolver = "0.23"
-
 # Error handling
 anyhow = "1.0"
-thiserror = "1.0"
+thiserror = "2.0"
 
 # Logging
 tracing = "0.1"

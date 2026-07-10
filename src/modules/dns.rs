@@ -32,7 +32,7 @@ pub async fn run(target: &str, limit: usize, output_format: &str) -> Result<()> 
         timestamp: Utc::now().to_rfc3339(),
         module: "dns".to_string(),
         findings,
-        mitre_techniques: vec!["T1590.001".to_string()], // Gather Victim Network Information: Domain Properties
+        mitre_techniques: vec!["T1590.001".to_string()],
         framework_refs: vec![
             "NIST CSF DE.CM-1".to_string(),
             "NIST CSF ID.AM-3".to_string(),
@@ -47,7 +47,10 @@ pub async fn run(target: &str, limit: usize, output_format: &str) -> Result<()> 
             println!("Findings:  {}", out.findings.len());
             println!();
             for f in &out.findings {
-                println!("  {} {} → {} [{}]", f.record_type, f.subdomain, f.value, f.source);
+                println!(
+                    "  {} {} → {} [{}]",
+                    f.record_type, f.subdomain, f.value, f.source
+                );
             }
         }
     }
@@ -81,20 +84,21 @@ async fn enumerate_via_ct(target: &str, limit: usize) -> Result<Vec<DnsFinding>>
         .take(limit)
         .filter_map(|entry| {
             let name = entry["name_value"].as_str()?.to_string();
-            // Skip wildcards for clean output
             if name.starts_with('*') {
                 return None;
             }
             Some(DnsFinding {
                 subdomain: name,
                 record_type: "DNS".to_string(),
-                value: entry["issuer_name"].as_str().unwrap_or("unknown").to_string(),
+                value: entry["issuer_name"]
+                    .as_str()
+                    .unwrap_or("unknown")
+                    .to_string(),
                 source: "crt.sh".to_string(),
             })
         })
         .collect();
 
-    // Deduplicate
     findings.dedup_by(|a, b| a.subdomain == b.subdomain);
 
     Ok(findings)

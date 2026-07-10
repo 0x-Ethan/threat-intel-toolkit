@@ -36,8 +36,8 @@ pub async fn run(target: &str, include_expired: bool, output_format: &str) -> Re
         total_found: entries.len(),
         entries,
         mitre_techniques: vec![
-            "T1590.001".to_string(), // Domain Properties
-            "T1596.003".to_string(), // Digital Certificates
+            "T1590.001".to_string(),
+            "T1596.003".to_string(),
         ],
     };
 
@@ -49,7 +49,10 @@ pub async fn run(target: &str, include_expired: bool, output_format: &str) -> Re
             println!("Total found: {}", out.total_found);
             println!();
             for e in &out.entries {
-                println!("  [{} → {}] {} — {}", e.not_before, e.not_after, e.subdomain, e.issuer);
+                println!(
+                    "  [{} → {}] {} — {}",
+                    e.not_before, e.not_after, e.subdomain, e.issuer
+                );
             }
         }
     }
@@ -81,7 +84,10 @@ async fn search_ct_logs(target: &str, _include_expired: bool) -> Result<Vec<CtEn
         .filter_map(|entry| {
             Some(CtEntry {
                 subdomain: entry["name_value"].as_str()?.to_string(),
-                issuer: entry["issuer_name"].as_str().unwrap_or("Unknown").to_string(),
+                issuer: entry["issuer_name"]
+                    .as_str()
+                    .unwrap_or("Unknown")
+                    .to_string(),
                 not_before: entry["not_before"].as_str().unwrap_or("").to_string(),
                 not_after: entry["not_after"].as_str().unwrap_or("").to_string(),
                 serial_number: entry["serial_number"].as_str().unwrap_or("").to_string(),

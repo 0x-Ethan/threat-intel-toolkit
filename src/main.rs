@@ -64,15 +64,15 @@ enum Commands {
 async fn main() -> Result<()> {
     let cli = Cli::parse();
 
-    // Initialize structured logging
-    let subscriber = tracing_subscriber::fmt()
-        .with_env_filter(if cli.verbose {
-            "threat_intel_toolkit=debug"
-        } else {
-            "threat_intel_toolkit=info"
-        })
-        .finish();
-    tracing::subscriber::set_global_default(subscriber)?;
+    let filter = if cli.verbose {
+        "threat_intel_toolkit=debug"
+    } else {
+        "threat_intel_toolkit=info"
+    };
+
+    tracing_subscriber::fmt()
+        .with_env_filter(filter)
+        .init();
 
     match cli.command {
         Commands::Dns { target, limit } => {
