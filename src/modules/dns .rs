@@ -88,10 +88,7 @@ async fn enumerate_via_ct(target: &str, limit: usize) -> Result<Vec<DnsFinding>>
     let mut findings: Vec<DnsFinding> = response
         .into_iter()
         .flat_map(|entry| {
-            let name_value = entry["name_value"]
-                .as_str()
-                .unwrap_or("")
-                .to_string();
+            let name_value = entry["name_value"].as_str().unwrap_or("").to_string();
             let issuer = entry["issuer_name"]
                 .as_str()
                 .unwrap_or("unknown")
