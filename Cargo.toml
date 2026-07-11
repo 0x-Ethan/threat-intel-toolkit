@@ -2,12 +2,12 @@
 name = "threat-intel-toolkit"
 version = "0.1.0"
 edition = "2021"
-authors = ["[NAME] <[EMAIL]>"]
+authors = ["[Amritesh] <[0xethan.amritesh@gmail.com]>"]
 description = "Threat Intelligence & OSINT research toolkit — passive DNS, certificate transparency, MITRE ATT&CK mapping. Built in Rust."
 license = "MIT"
-repository = "https://github.com/[USERNAME]/threat-intel-toolkit"
-homepage = "https://[DOMAIN]"
-documentation = "https://github.com/[USERNAME]/threat-intel-toolkit#readme"
+repository = "https://github.com/0x-Ethan/threat-intel-toolkit"
+homepage = "https://github.com/0x-Ethan"
+documentation = "https://github.com/0x-Ethan/threat-intel-toolkit#readme"
 readme = "README.md"
 keywords = ["threat-intelligence", "osint", "security", "dfir", "mitre-attack"]
 categories = ["command-line-utilities", "network-programming"]

@@ -59,7 +59,11 @@ pub async fn run(target: &str, limit: usize, output_format: &str) -> Result<()> 
 }
 
 /// Enumerate subdomains using certificate transparency logs (passive only).
-/// Data source: crt.sh public API — no authentication required.
+/// Data source: crt.sh public API — no authentication required, no active scanning.
+///
+/// Fix v0.1.1: crt.sh returns multiple subdomains in a single name_value field
+/// separated by newlines. Each is now split into an individual finding entry.
+/// Fix v0.1.1: Full deduplication across the entire result set, not just consecutive entries.
 async fn enumerate_via_ct(target: &str, limit: usize) -> Result<Vec<DnsFinding>> {
     let client = reqwest::Client::builder()
         .user_agent("threat-intel-toolkit/0.1 (security research; passive only)")
@@ -79,26 +83,36 @@ async fn enumerate_via_ct(target: &str, limit: usize) -> Result<Vec<DnsFinding>>
         .await
         .unwrap_or_default();
 
+    // crt.sh sometimes returns multiple subdomains in one name_value field
+    // separated by newline characters. Split each entry individually.
     let mut findings: Vec<DnsFinding> = response
         .into_iter()
-        .take(limit)
-        .filter_map(|entry| {
-            let name = entry["name_value"].as_str()?.to_string();
-            if name.starts_with('*') {
-                return None;
-            }
-            Some(DnsFinding {
-                subdomain: name,
-                record_type: "DNS".to_string(),
-                value: entry["issuer_name"]
-                    .as_str()
-                    .unwrap_or("unknown")
-                    .to_string(),
-                source: "crt.sh".to_string(),
-            })
+        .flat_map(|entry| {
+            let name_value = entry["name_value"]
+                .as_str()
+                .unwrap_or("")
+                .to_string();
+            let issuer = entry["issuer_name"]
+                .as_str()
+                .unwrap_or("unknown")
+                .to_string();
+
+            name_value
+                .split('\n')
+                .filter(|n| !n.is_empty() && !n.starts_with('*'))
+                .map(|n| DnsFinding {
+                    subdomain: n.trim().to_string(),
+                    record_type: "DNS".to_string(),
+                    value: issuer.clone(),
+                    source: "crt.sh".to_string(),
+                })
+                .collect::<Vec<_>>()
         })
+        .take(limit)
         .collect();
 
+    // Sort then dedup for full deduplication across the entire result set
+    findings.sort_by(|a, b| a.subdomain.cmp(&b.subdomain));
     findings.dedup_by(|a, b| a.subdomain == b.subdomain);
 
     Ok(findings)

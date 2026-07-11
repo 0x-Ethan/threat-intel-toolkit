@@ -157,7 +157,7 @@ MIT License — see [LICENSE](LICENSE) for details.
 
 ## About
 
-Maintained by **[NAME]** — Cybersecurity Researcher focused on Threat Intelligence, DFIR, and Data Protection.
+Maintained by **[Amritesh (0xEthan)]** — Cybersecurity Researcher focused on Threat Intelligence, DFIR, and Data Protection.
 
 Contributing to [OWASP Amass](https://github.com/owasp-amass/amass) · [MITRE ATT&CK](https://github.com/mitre-attack)
 
